@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+  php:
+    build: ./docker/php
+    volumes:
+      - ./LaraApis:/var/www
+
+  nginx:
+    build: ./docker/nginx
+    volumes:
+      - ./LaraApis:/var/www
+    ports:
+      - 8080:80
+
+  db:
+    build: ./docker/maria
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_DATABASE: sample
+      MYSQL_USER: user
+      MYSQL_PASSWORD: user
+      MYSQL_ROOT_PASSWORD: root
+      TZ: 'Asia/Tokyo'
+    volumes:
+      - ./docker/maria/data:/var/lib/mysql
