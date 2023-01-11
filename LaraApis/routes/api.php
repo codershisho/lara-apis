@@ -27,5 +27,7 @@ Route::prefix('/nuxt-schedule')->group(function() {
     Route::prefix('/members')->group(function() {
         Route::get('/', 'Apis\NuxtSchedule\MemberApi@index');
         Route::post('/', 'Apis\NuxtSchedule\MemberApi@store');
+        Route::put('/{id}', 'Apis\NuxtSchedule\MemberApi@update');
+        Route::delete('/{id}', 'Apis\NuxtSchedule\MemberApi@delete');
     });
 });
