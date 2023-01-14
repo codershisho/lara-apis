@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Storage;
 
-class MMember extends Model
+class TProjectMember extends Model
 {
     use SoftDeletes;
 
@@ -17,12 +17,13 @@ class MMember extends Model
         'image_path'
     ];
 
-    protected $appends = ['image'];
-
-
-    public function getImageAttribute()
+    public function member()
     {
-        $image = Storage::get($this->image_path);
-        return $image;
+        return $this->hasOne('App\Models\NuxtSchedule\MMember', 'id', 'member_id');
+    }
+
+    public function project()
+    {
+        return $this->hasOne('App\Models\NuxtSchedule\MProject', 'id', 'project_id');
     }
 }

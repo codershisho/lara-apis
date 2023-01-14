@@ -25,9 +25,16 @@ class MemberApi extends Controller
             DB::beginTransaction();
 
             $model = new MMember();
-            $model->fill($req->all());
-            $model->save();
+            $model->name = $req->name;
 
+            $dir = 'user';
+            // アップロードされたファイル名を取得
+            $file_name = $req->name . '.svg';
+            $req->file('image')->storeAs('public/' . $dir, $file_name);
+
+            $model->image_path = 'public/' . $dir . '/' . $file_name;
+
+            $model->save();
             DB::commit();
         } catch (\Throwable $th) {
             DB::rollBack();

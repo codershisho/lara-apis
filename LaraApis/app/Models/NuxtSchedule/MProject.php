@@ -23,6 +23,17 @@ class MProject extends Model
 
     protected $appends = ['status_name'];
 
+    // #####################################
+    // relation
+    // #####################################
+    public function members()
+    {
+        return $this->hasMany('App\Models\NuxtSchedule\TProjectMember', 'project_id', 'id');
+    }
+
+    // #####################################
+    // acceser
+    // #####################################
     public function getStatusNameAttribute()
     {
         $result = '';
