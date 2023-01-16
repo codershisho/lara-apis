@@ -13,8 +13,8 @@ class TProjectMember extends Model
     protected $connection = 'nuxt-schedule';
 
     protected $fillable = [
-        'name',
-        'image_path'
+        'project_id',
+        'member_id'
     ];
 
     public function member()

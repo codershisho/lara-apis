@@ -36,5 +36,8 @@ Route::prefix('/nuxt-schedule')->group(function() {
         Route::post('/', 'Apis\NuxtSchedule\ProjectApi@store');
         Route::put('/{id}', 'Apis\NuxtSchedule\ProjectApi@update');
         Route::delete('/{id}', 'Apis\NuxtSchedule\ProjectApi@delete');
+
+        Route::get('/{id}/memos', 'Apis\NuxtSchedule\ProjectApi@indexMemo');
+        Route::post('/{id}/memo', 'Apis\NuxtSchedule\ProjectApi@storeMemo');
     });
 });

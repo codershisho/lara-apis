@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 
 use App\Models\NuxtSchedule\MProject;
 use App\Models\NuxtSchedule\TProjectMember;
+use App\Models\NuxtSchedule\TProjectMemos;
 use Exception;
 
 class ProjectApi extends Controller
@@ -81,10 +82,10 @@ class ProjectApi extends Controller
 
             $members = collect($req->members);
             TProjectMember::where('project_id', $id)->delete();
-            $members->each(function($memberId) use($id) {
+            $members->each(function($member) use($id) {
                 $m = new TProjectMember();
                 $m->project_id = $id;
-                $m->member_id = $memberId;
+                $m->member_id = $member['id'];
                 $m->save();
             });
 
@@ -113,6 +114,36 @@ class ProjectApi extends Controller
 
         return response()->json([
             'message' => '削除完了しました'
+        ]);
+    }
+
+    public function indexMemo($id)
+    {
+        $datas = TProjectMemos::where('project_id', $id)->get();
+        return response()->json([
+            'datas' => $datas
+        ]);
+    }
+
+    public function storeMemo($id, Request $req)
+    {
+        try {
+            $cn = DB::connection('nuxt-schedule');
+            $cn->beginTransaction();
+
+            $m = new TProjectMemos();
+            $m->project_id = $id;
+            $m->memo = $req->memo;
+            $m->save();
+
+            $cn->commit();
+        } catch (\Throwable $th) {
+            $cn->rollBack();
+            throw $th;
+        }
+
+        return response()->json([
+            'message' => 'メモ登録完了しました。'
         ]);
     }
 }
