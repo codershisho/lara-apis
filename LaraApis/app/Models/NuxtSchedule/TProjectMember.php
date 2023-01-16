@@ -17,6 +17,9 @@ class TProjectMember extends Model
         'member_id'
     ];
 
+    // #####################################
+    // relation
+    // #####################################
     public function member()
     {
         return $this->hasOne('App\Models\NuxtSchedule\MMember', 'id', 'member_id');

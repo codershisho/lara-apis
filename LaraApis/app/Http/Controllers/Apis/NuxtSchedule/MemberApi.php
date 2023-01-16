@@ -22,7 +22,8 @@ class MemberApi extends Controller
     public function store(Request $req)
     {
         try {
-            DB::beginTransaction();
+            $cn = DB::connection('nuxt-schedule');
+            $cn->beginTransaction();
 
             $model = new MMember();
             $model->name = $req->name;
@@ -35,9 +36,9 @@ class MemberApi extends Controller
             $model->image_path = 'public/' . $dir . '/' . $file_name;
 
             $model->save();
-            DB::commit();
+            $cn->commit();
         } catch (\Throwable $th) {
-            DB::rollBack();
+            $cn->rollBack();
             throw $th;
         }
 
@@ -49,7 +50,9 @@ class MemberApi extends Controller
     public function update($id, Request $req)
     {
         try {
-            DB::beginTransaction();
+            $cn = DB::connection('nuxt-schedule');
+            $cn->beginTransaction();
+
             $model = MMember::find($id);
             if(!$model) {
                 throw new Exception("対象データが存在しません。処理を終了しました。");
@@ -58,9 +61,9 @@ class MemberApi extends Controller
             $model->name = $req->name;
             $model->save();
 
-            DB::commit();
+            $cn->commit();
         } catch (\Throwable $th) {
-            DB::rollback();
+            $cn->rollback();
             throw $th;
         }
 
@@ -72,11 +75,14 @@ class MemberApi extends Controller
     public function delete($id)
     {
         try {
-            DB::beginTransaction();
+            $cn = DB::connection('nuxt-schedule');
+            $cn->beginTransaction();
+
             MMember::find($id)->delete();
-            DB::commit();
+
+            $cn->commit();
         } catch (\Throwable $th) {
-            DB::rollBack();
+            $cn->rollBack();
             throw $th;
         }
 

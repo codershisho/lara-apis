@@ -17,12 +17,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-
-Route::prefix('/members')->group(function () {
-    Route::get('/', 'Apis\Sample\SampleApi@index');
-    Route::post('/', 'Apis\Sample\SampleApi@store');
-});
-
+// スケジュールプロジェクトのAPI群
 Route::prefix('/nuxt-schedule')->group(function() {
     Route::prefix('/members')->group(function() {
         Route::get('/', 'Apis\NuxtSchedule\MemberApi@index');
